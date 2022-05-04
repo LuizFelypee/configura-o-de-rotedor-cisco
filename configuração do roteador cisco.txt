@@ -4,6 +4,7 @@ enable
         hostname rt-01
         service timestamps log datetime msec
         service timestamps debug datetime msec
+        service password-encryption 
         no ip domain-lookup
         banner motd #AVISO acesso autorizado somente a funcionarios#
         security passwords min-length 8
@@ -14,12 +15,40 @@ enable
             login local
             logging synchronous
             exec-timeout 5 30
+            exit
+        ip domain-name senac.br 
+        crypto key generate rsa usage-keys modulus 1024
+        ip ssh version 2
+        line vty  0 4
+            login local
+            logging synchronous
+            exec-timeout 5 30
+            transport input ssh
+            exit
+
+        
+ =======Configurando a Rede==========
+    configure terminal
+        interface gigabitEthernet 0/0
+            description interface de Gateway da Rede Lan 
+            ip addres 192.168.1.254 255.255.255.0
+            no shutdown
             end
     write (copy running-config startup-config)
     disable
     exit
+
+    show running-config
+    show ip interface brief
+    ping 192.168.1.251
+    ping 192.168.1.250
+    telnet ("invasãp de howter")
+    ssh -l senac 192.168.1.254
     
-refazer o processo com os dois usuarios (senac e tatuape)
+
+
+
+
 
 
 
